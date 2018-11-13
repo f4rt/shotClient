@@ -1,28 +1,30 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import Topbar from './components/topbar/Topbar';
+import Feed from './components/Feed/Feed'
+import {connect} from 'react-redux';
 
 class App extends Component {
+
+  componentDidMount() {
+    let user = JSON.parse(localStorage.getItem('User'));
+    if (!user) {localStorage.setItem('User', JSON.stringify({token: ''}))}
+    this.props.authCheck(user)
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
+        <Topbar />
+        <Feed />
       </div>
     );
   }
 }
 
-export default App;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    authCheck: (data) => {dispatch({type: 'CHECK_AUTH', data: data})}
+  }
+}
+
+export default connect(null, mapDispatchToProps)(App);

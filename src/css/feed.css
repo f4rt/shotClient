@@ -1,0 +1,67 @@
+.feed-container {
+	width: 100%;
+}
+
+.feed {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+}
+
+.feed__img-container {
+	position: relative;
+	height: 304px;
+	margin: 0 1px 1px 0;
+}
+
+.feed__img-container img {
+	height: 100%;
+}
+
+.feed__img-container .bottom-bar {
+	position: absolute;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	flex-wrap: wrap;
+	width: calc(100% - 4px);
+	height: 48px;
+	background-color: #fff;
+	bottom: 2px;
+	left: 2px;
+}
+
+.bottom-bar .user-data {
+	display: flex;
+	align-items: center;
+	margin-left: 8px;
+	text-transform: capitalize;
+	font-size: 18px;
+	color: #333;
+}
+
+.user-data .avatar {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 36px;
+	height: 36px;
+	border-radius: 20px;
+	background-color: #56CCF2;
+	color: #fff;
+	font-size: 24px;
+	font-weight: 500;
+	margin-right: 8px;
+}
+
+.bottom-bar .buttons {
+	display: flex;
+	align-items: center;
+	height: 70%;
+	margin-right: 8px;
+}
+
+.bottom-bar button {
+	background: none;
+	border: none;
+}
