@@ -2,6 +2,7 @@
 
 body {
   font-family: 'Work Sans';
+  color: #333;
   margin: 0;
 }
 
@@ -33,6 +34,7 @@ button:hover {
   background: none;
   border: none;
   overflow: hidden;
+  z-index: 2000;
 }
 
 .close::before, .close::after {
@@ -58,3 +60,4 @@ button:hover {
 @import "./css/topbar.css";
 @import "./css/upload-modal.css";
 @import "./css/feed.css";
+@import "./css/fullsize.css";

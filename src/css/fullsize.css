@@ -1,0 +1,80 @@
+.fullview__info .author {
+	display: flex;
+}
+
+.fullview__info .author,
+.fullview__info .title-description,
+.fullview__info .buttons-bar {
+	padding: 16px;
+	border-bottom: 1px solid #f2f2f2;
+}
+
+.fullview__info .author__photo {
+	width: 48px;
+	height: 48px;
+	border-radius: 30px;
+	background-size: cover;
+	background-position: center;
+}
+
+.fullview__info .author__name {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	margin-left: 8px;
+}
+
+.fullview__info .author__name .name {
+	text-transform: capitalize;
+	font-size: 18px;
+	font-weight: 500;
+}
+
+.fullview__info .buttons-bar {
+	display: flex;
+}
+
+.fullview__info .buttons-bar button {
+	color: #4f4f4f;
+	border: none;
+	background: none;
+	display: flex;
+	align-items: center;
+}
+
+.fullview__info .buttons-bar button img {
+	margin-right: 6px;
+}
+
+.buttons-bar .like {
+	font-size: 18px;
+}
+
+.buttons-bar .collection {
+	font-size: 16px;
+	margin-left: 16px;
+}
+
+.title-description .title {
+	font-size: 24px;
+	margin: 0;
+}
+
+.title-description .title::first-letter, .title-description .description::first-letter {
+	text-transform: uppercase;
+}
+
+.title-description .description {
+	color: #828282;
+	margin: 16px 0 0 0;
+}
+
+.fullview__info .comments .section-title {
+	margin: 16px;
+} 
+
+.fullview__info .comments .comments-section {
+	background-color: #f6f6f6;
+	padding: 4px;
+	margin: 0 4px;
+}

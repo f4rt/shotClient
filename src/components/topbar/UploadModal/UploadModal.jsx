@@ -17,7 +17,8 @@ class UploadModal extends Component {
 	submitUpload = () => {
 		let data = {
 			author_photo: this.props.user.photo,
-			author: this.props.user.firstname + ' ' + this.props.user.surname,
+			author_name: this.props.user.firstname + ' ' + this.props.user.surname,
+			author_id: this.props.user._id,
 			photo_url: this.state.photo_url,
 			title: this.state.title,
 			category: this.state.category,

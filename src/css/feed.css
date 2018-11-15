@@ -10,8 +10,16 @@
 
 .feed__img-container {
 	position: relative;
+	display: flex;
+	justify-content: center;
+	align-items: center;
 	height: 304px;
 	margin: 0 1px 1px 0;
+	overflow: hidden;
+}
+
+.feed__img-container:hover {
+	cursor: pointer;
 }
 
 .feed__img-container img {
@@ -25,7 +33,6 @@
 	align-items: center;
 	flex-wrap: wrap;
 	width: calc(100% - 4px);
-	height: 48px;
 	background-color: #fff;
 	bottom: 2px;
 	left: 2px;
@@ -34,7 +41,7 @@
 .bottom-bar .user-data {
 	display: flex;
 	align-items: center;
-	margin-left: 8px;
+	margin: 8px 0 8px 8px;
 	text-transform: capitalize;
 	font-size: 18px;
 	color: #333;
@@ -52,13 +59,15 @@
 	font-size: 24px;
 	font-weight: 500;
 	margin-right: 8px;
+	background-position: center;
+	background-size: cover;
 }
 
 .bottom-bar .buttons {
 	display: flex;
 	align-items: center;
 	height: 70%;
-	margin-right: 8px;
+	margin: 8px 0 8px 8px;
 }
 
 .bottom-bar button {

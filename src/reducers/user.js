@@ -5,7 +5,7 @@ export default function user(state = {}, action = {}) {
 		case 'USER_LOGGED_OUT':
 			return {};
 		case 'CHECK_AUTH':
-			return action.data
+			return action.user
 		default:
 			return state;
 	}
