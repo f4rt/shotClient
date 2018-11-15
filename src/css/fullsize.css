@@ -35,7 +35,6 @@
 }
 
 .fullview__info .buttons-bar button {
-	color: #4f4f4f;
 	border: none;
 	background: none;
 	display: flex;
@@ -47,10 +46,17 @@
 }
 
 .buttons-bar .like {
+	color: #4f4f4f;
 	font-size: 18px;
 }
 
+.buttons-bar .liked {
+	color: #56CCF2;
+	font-weight: 500;
+}
+
 .buttons-bar .collection {
+	color: #4f4f4f;
 	font-size: 16px;
 	margin-left: 16px;
 }

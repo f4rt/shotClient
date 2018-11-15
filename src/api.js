@@ -8,6 +8,7 @@ export default {
 		upload: (data) => axios.post('/api/upload', {data})
 	},
 	photos: {
-		all: () => axios.post('/allphotos')
+		showAll: () => axios.post('/allphotos'),
+		like: (data) => axios.post('/api/likephoto', {data})
 	}
 }

@@ -1,12 +1,26 @@
 import React, { Component } from 'react';
 import like_icon from './like_icon.svg';
+import liked_icon from './liked_icon.svg';
 import collection_icon from './collection_icon.svg';
-import PhotoFull from './PhotoFull'
+import PhotoFull from './PhotoFull';
+import api from '../../api';
 
 class Photo extends Component {
 	state = {
 		showBar: false,
-		fullView: false
+		fullView: false,
+		likeStatus: false,
+		likesCount: this.props.photo.likes
+	}
+
+	componentDidMount() {
+		const {photo, user}= this.props;
+		let i;
+		for (i = 0; i < user.liked_photos.length; i++) {
+			if(user.liked_photos[i] === photo._id) {
+				this.setState({ likeStatus: true });
+			}
+		}
 	}
 
 	showBar = () =>
@@ -21,9 +35,25 @@ class Photo extends Component {
 	hideFull = () =>
 		this.setState({ fullView: false });
 
+	likePhoto =() => {
+		const {photo, user} = this.props;
+		if (!this.state.likeStatus) {
+			this.setState({ 
+				likeStatus: true,
+				likesCount: this.state.likesCount + 1 
+			});
+			api.photos.like({
+				photo_id: photo._id,
+				user_id: user.user_id
+			});
+		}
+	}
+
 	render() {
-		const {showBar, fullView} = this.state;
+		const {showBar, fullView, likesCount, likeStatus} = this.state;
 		const {photo} = this.props;
+
+		console.log(likeStatus)
 		
 		return (
 			<React.Fragment>
@@ -38,14 +68,19 @@ class Photo extends Component {
 								{photo.author_name}
 							</div>
 							<div className="buttons">
-								<button><img src={like_icon} alt="Like it"/></button>
+								<button>{likeStatus ? <img src={liked_icon} alt="Like it"/> : <img src={like_icon} alt="Like it"/>}</button>
 								<button><img src={collection_icon} alt="Add to your collection"/></button>
 							</div>
 						</div>
 					}		
 				</div>
 				{fullView &&
-					<PhotoFull photo={photo} close={this.hideFull}/>
+					<PhotoFull 
+						photo={photo}
+						close={this.hideFull}
+						likesCount={likesCount}
+						likeStatus={likeStatus}
+						likePhoto={this.likePhoto}/>
 				}
 			</React.Fragment>
 		);

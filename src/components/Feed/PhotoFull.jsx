@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import like_icon from './like_icon.svg';
+import liked_icon from './liked_icon.svg';
 import collection_icon from './collection_icon.svg';
 
 class PhotoFull extends Component {
@@ -8,7 +9,7 @@ class PhotoFull extends Component {
 	}
 	
 	render() {
-		const {photo} = this.props
+		const {photo, likesCount, likeStatus, likePhoto} = this.props
 
 		return (
 			<div className="fullview-container">
@@ -25,8 +26,14 @@ class PhotoFull extends Component {
 							</div>
 						</div>
 						<div className="buttons-bar">
-							<button className="like"><img src={like_icon} alt=""/>{photo.likes}</button>
-							<button className="collection"><img src={collection_icon} alt=""/>Add to collection</button>
+							<button className={likeStatus ? "like liked" : "like"} onClick={likePhoto}>
+								{likeStatus ? <img src={liked_icon} alt=""/> : <img src={like_icon} alt=""/>}
+								{likesCount}
+							</button>
+							<button className="collection">
+								<img src={collection_icon} alt=""/>
+								Add to collection
+							</button>
 						</div>
 						<div className="title-description">
 							<p className="title">{photo.title}</p>
