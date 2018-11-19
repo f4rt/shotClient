@@ -18,7 +18,7 @@ class UploadModal extends Component {
 		let data = {
 			author_photo: this.props.user.photo,
 			author_name: this.props.user.firstname + ' ' + this.props.user.surname,
-			author_id: this.props.user._id,
+			author_id: this.props.user.user_id,
 			photo_url: this.state.photo_url,
 			title: this.state.title,
 			category: this.state.category,
@@ -97,7 +97,7 @@ class UploadModal extends Component {
 							<select name="category" onChange={this.addToData}>
 								<option value="Uncatigorized">Uncatigorized</option>
 								<option value="Animals">Animals</option>
-								<option value="Black $ White">Black $ White</option>
+								<option value="Black and White">Black and White</option>
 								<option value="Celebrities">Celebrities</option>
 								<option value="Architecture">Architecture</option>
 								<option value="Landscapes">Landscapes</option>

@@ -11,7 +11,7 @@ input, textarea, select, button {
   font-family: 'Work Sans';
 }
 
-input {
+input, textarea {
 	border: 1px solid #bdbdbd;
 }
 

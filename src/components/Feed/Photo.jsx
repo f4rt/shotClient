@@ -7,24 +7,27 @@ import api from '../../api';
 
 class Photo extends Component {
 	state = {
+		initialUser: false,
 		showBar: false,
 		fullView: false,
 		likeStatus: false,
 		likesCount: this.props.photo.likes
 	}
 
-	componentDidMount() {
+	componentDidUpdate() {
 		const {photo, user}= this.props;
-		let i;
-		for (i = 0; i < user.liked_photos.length; i++) {
-			if(user.liked_photos[i] === photo._id) {
-				this.setState({ likeStatus: true });
+		const {initialUser} = this.state;
+		if(user && !initialUser) {
+			for (let i = 0; i < user.liked_photos.length; i++) {
+				if(user.liked_photos[i] === photo._id) {
+					this.setState({ likeStatus: true, initialUser: true });
+				}
 			}
 		}
 	}
 
 	showBar = () =>
-	this.setState({ showBar: true });
+		this.setState({ showBar: true });
 
 	hideBar = () =>
 		this.setState({ showBar: false });
@@ -53,8 +56,8 @@ class Photo extends Component {
 		const {showBar, fullView, likesCount, likeStatus} = this.state;
 		const {photo} = this.props;
 
-		console.log(likeStatus)
-		
+		console.log('render')
+
 		return (
 			<React.Fragment>
 				<div className="feed__img-container" onMouseEnter={this.showBar} onMouseLeave={this.hideBar} onClick={this.showFull}>
@@ -75,7 +78,8 @@ class Photo extends Component {
 					}		
 				</div>
 				{fullView &&
-					<PhotoFull 
+					<PhotoFull
+						user={this.props.user}
 						photo={photo}
 						close={this.hideFull}
 						likesCount={likesCount}

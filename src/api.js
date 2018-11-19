@@ -9,6 +9,11 @@ export default {
 	},
 	photos: {
 		showAll: () => axios.post('/allphotos'),
-		like: (data) => axios.post('/api/likephoto', {data})
+		like: (data) => axios.post('/api/likephoto', {data}),
+		addComment: (data) => axios.post('/api/addcomment', {data}),
+		getComments: (photo_id) => axios.post('/api/getcomments', {photo_id})
+	},
+	date: {
+		getDate: () => axios.post('/api/getdate')
 	}
 }

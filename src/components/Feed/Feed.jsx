@@ -9,56 +9,28 @@ class Feed extends Component {
 	}
 	
 	componentDidMount() {
-		api.photos.showAll().then(data => 
-			this.setState({ photos_data: data.data }));
+		api.photos.showAll().then(data => {
+			this.setState({ photos_data: data.data })
+		})
 	}
 
 	perfomanceTest = () => {
 		let arr = [];
 		let i;
 		let time;
-		for (i = 0; i < 2000000; i++) {
-			if (i % 5000 === 0) {
-				arr.push({
-					id: i,
-					prop1: 'fsdf',
-					prop2: 'fsdf',
-					prop3: 'fsdf',
-					prop5: 'fsdf',
-					prop6: 'fsdf',
-					prop7: 'fsdf',
-					prop8: 'fsdf',
-					prop9: 'fsdf',
-					prop10: 'fsdf',
-					prop11: 'fsdf',
-					prop12: 'fsdf',
-					prop13: 'fsdf',
-					prop14: 'fsdf',
-					anchor: 'anchor'
-				})
-			} else {
-				arr.push({
-					id: i,
-					prop1: 'fsdf',
-					prop2: 'fsdf',
-					prop3: 'fsdf',
-					prop5: 'fsdf',
-					prop6: 'fsdf',
-					prop7: 'fsdf',
-					prop8: 'fsdf',
-					prop9: 'fsdf',
-					prop10: 'fsdf',
-					prop11: 'fsdf',
-					prop12: 'fsdf',
-					prop13: 'fsdf',
-					prop14: 'fsdf'
-				})
-			}
-			
+		for (i = 0; i < 4000000; i++) {
+			arr.push({
+				id: i,
+				prop1: 'fsdf',
+				prop2: 'fsdf',
+				value: Math.random(1, 1000000)
+			})			
 		}
 		let start = performance.now();
-		this.findItemLoop(arr, 169937)
+		// this.findItemLoop(arr, 169937)
+		this.arrSort(arr);
 		time = performance.now()-start
+		console.log(arr)
 		console.log(time)
 	}
 
@@ -78,6 +50,12 @@ class Feed extends Component {
 				console.log('Find it ' + item.id)
 			}
 		}
+	}
+
+	arrSort = (arr) => {
+		arr.sort((a, b) =>{
+			return a.value - b.value;
+		})	
 	}
 
 	render() {
