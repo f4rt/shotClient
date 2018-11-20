@@ -3,24 +3,21 @@ import like_icon from './like_icon.svg';
 import liked_icon from './liked_icon.svg';
 import collection_icon from './collection_icon.svg';
 import Textarea from 'react-textarea-autosize';
-import api from '../../api'
+import api from '../../api';
+import Comment from './Comment';
 
 class PhotoFull extends Component {
 	state = {
 		comment: '',
 		commentsArray: [],
-		currentServerDate: '',
-		dateDifference: {
-			years: 0,
-			months: 0,
-			days: 0,
-			hours: 0,
-			mins: 0
-		}
+		currentServerDate: ''
 	}
 
 	componentDidMount() {
-		api.date.getDate().then(date => this.setState({ currentServerDate: date.data }));
+		api.date.getDate().then(date => {
+			let temp = new Date(date.data);
+			this.setState({ currentServerDate: temp.getTime() })
+		});
 		api.photos.getComments(this.props.photo._id).then(comments => this.setState({ commentsArray: comments.data }))
 	}
 
@@ -47,16 +44,7 @@ class PhotoFull extends Component {
 
 		const comments = commentsArray ? 
 			commentsArray.map((comment, i) => 
-			<div key={i} className="comment">
-				<div className="user">
-					<div className="user__photo" style={{backgroundImage: 'url(' + comment.user_photo + ')'}}></div>
-					<div className="user__info">
-						<div className="name">{comment.username}</div>
-						<div className="date">{currentServerDate}</div>
-					</div>
-				</div>
-				<div className="comment__text">{comment.comment}</div>
-			</div>
+				<Comment key={i} comment={comment} serverDate={currentServerDate}/>
 		) : null;
 
 

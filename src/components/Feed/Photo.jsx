@@ -3,13 +3,14 @@ import like_icon from './like_icon.svg';
 import liked_icon from './liked_icon.svg';
 import collection_icon from './collection_icon.svg';
 import PhotoFull from './PhotoFull';
-import api from '../../api';
+import AddToCollection from './AddToCollection'
 
 class Photo extends Component {
 	state = {
 		initialUser: false,
 		showBar: false,
 		fullView: false,
+		showCollections: false,
 		likeStatus: false,
 		likesCount: this.props.photo.likes
 	}
@@ -17,7 +18,7 @@ class Photo extends Component {
 	componentDidUpdate() {
 		const {photo, user}= this.props;
 		const {initialUser} = this.state;
-		if(user && !initialUser) {
+		if(user.token && !initialUser) {
 			for (let i = 0; i < user.liked_photos.length; i++) {
 				if(user.liked_photos[i] === photo._id) {
 					this.setState({ likeStatus: true, initialUser: true });
@@ -29,14 +30,22 @@ class Photo extends Component {
 	showBar = () =>
 		this.setState({ showBar: true });
 
-	hideBar = () =>
-		this.setState({ showBar: false });
+	hideBar = () => {
+		if(!this.state.showCollections)
+			this.setState({ showBar: false });
+	}
 
 	showFull = () =>
 		this.setState({ fullView: true });
 
-	hideFull = () =>
+	hideFull = () => 
 		this.setState({ fullView: false });
+
+	showCollections = () => 
+		this.setState({ showCollections: true });
+
+	hideCollections = () => 
+		this.setState({ showCollections: false });
 
 	likePhoto =() => {
 		const {photo, user} = this.props;
@@ -45,7 +54,7 @@ class Photo extends Component {
 				likeStatus: true,
 				likesCount: this.state.likesCount + 1 
 			});
-			api.photos.like({
+			this.props.likeFunc({
 				photo_id: photo._id,
 				user_id: user.user_id
 			});
@@ -53,15 +62,15 @@ class Photo extends Component {
 	}
 
 	render() {
-		const {showBar, fullView, likesCount, likeStatus} = this.state;
+		const {showBar, showCollections, fullView, likesCount, likeStatus} = this.state;
 		const {photo} = this.props;
 
-		console.log('render')
+		console.log('Photo component render')
 
 		return (
 			<React.Fragment>
-				<div className="feed__img-container" onMouseEnter={this.showBar} onMouseLeave={this.hideBar} onClick={this.showFull}>
-					<img src={photo.photo_url} alt={photo.title}/>
+				<div className="feed__img-container" onMouseEnter={this.showBar} onMouseLeave={this.hideBar}>
+					<img src={photo.photo_url} alt={photo.title} onClick={this.showFull}/>
 					{showBar &&
 						<div className="bottom-bar">
 							<div className="user-data">
@@ -71,8 +80,15 @@ class Photo extends Component {
 								{photo.author_name}
 							</div>
 							<div className="buttons">
-								<button>{likeStatus ? <img src={liked_icon} alt="Like it"/> : <img src={like_icon} alt="Like it"/>}</button>
-								<button><img src={collection_icon} alt="Add to your collection"/></button>
+								<button>
+									{likeStatus ? <img src={liked_icon} alt="Like it"/> : <img src={like_icon} alt="Like it"/>}
+								</button>
+								<button onClick={this.showCollections}>
+									<img src={collection_icon} alt="Add to your collection"/>
+								</button>
+								{showCollections && 
+									<AddToCollection user={this.props.user} photo_id={photo._id}/>
+								}
 							</div>
 						</div>
 					}		

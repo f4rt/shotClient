@@ -6,6 +6,16 @@ export default function user(state = {}, action = {}) {
 			return {};
 		case 'CHECK_AUTH':
 			return action.user
+		case 'LIKE_PHOTO':
+			return {
+				...state,
+				liked_photos: [...state.liked_photos, action.data.photo_id]
+			};
+		case 'CREATE_NEW_COLLECTION':
+			return {
+				...state,
+				collections: [...state.collections, {collection_name: action.data.collection_name, collection_photos: []}]
+			}
 		default:
 			return state;
 	}

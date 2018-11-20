@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import api from '../../api';
 import Photo from './Photo';
 import {connect} from 'react-redux';
+import {like} from '../../actions/userActions'
 
 class Feed extends Component {
 	state = {
@@ -60,9 +61,13 @@ class Feed extends Component {
 
 	render() {
 		const {photos_data} = this.state;
-
 		const photos = photos_data.map(data => 
-			<Photo key={data._id} photo={data} user={this.props.user}/>
+			<Photo 
+				key={data._id} 
+				photo={data} 
+				user={this.props.user} 
+				likeFunc={this.props.like}
+				/>
 		)
 	
 		return (
@@ -82,6 +87,6 @@ function mapStateToProps(state) {
 	})
 }
 
-export default connect(mapStateToProps)(Feed);
+export default connect(mapStateToProps, {like})(Feed);
 
 

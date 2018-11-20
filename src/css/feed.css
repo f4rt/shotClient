@@ -13,9 +13,8 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	height: 304px;
+	height: 336px;
 	margin: 0 1px 1px 0;
-	overflow: hidden;
 }
 
 .feed__img-container:hover {
@@ -64,6 +63,7 @@
 }
 
 .bottom-bar .buttons {
+	position: relative;
 	display: flex;
 	align-items: center;
 	height: 70%;
@@ -73,4 +73,88 @@
 .bottom-bar button {
 	background: none;
 	border: none;
+}
+
+.to-collection {
+	position: absolute;
+	width: 264px;
+	top: -58px;
+	right: -272px;
+	background-color: #fff;
+	z-index: 1000;
+}
+
+.to-collection__title {
+	font-size: 18px;
+	font-weight: 500;
+	width: 100%;
+	padding: 14px 0;
+	text-align: center;
+	border-bottom: 1px solid #e0e0e0;
+}
+
+.to-collection__new {
+	display: flex;
+	justify-content: center;
+}
+
+.to-collection__new span {
+	margin-left: 16px;
+	font-weight: 200;
+	font-size: 40px;
+	color: #333;
+}
+
+.to-collection__new input {
+	width: 140px;
+	font-size: 16px;
+	padding: 0;
+	border: none;
+	margin-top: 2px;
+	margin-left: 8px;
+	padding-right: 8px;
+}
+
+.to-collection__new input:focus {
+	background: none;
+}
+
+.to-collection__new input::placeholder {
+	color: #333;
+	font-weight: 300;
+	font-size: 18px;
+}
+
+.to-collection__new  button {
+	flex: 1;
+	font-size: 18px;
+	color: #fff;
+	background-color: #56CCF2;
+}
+
+.to-collection__collections {
+	min-height: 240px;
+	width: 100%;
+	background-color: #F6F6F6;
+	padding: 4px 0;
+}
+
+.user-collection {
+	display: flex;
+	align-items: center;
+	min-height: 48px;
+	margin: 0 4px 4px 4px;
+	background-color: #fff;
+}
+
+.user-collection__last-photo {
+	margin-left: 4px;
+	width: 40px;
+	height: 40px;
+	background-color: #f2f2f2;
+}
+
+.user-collection__title {
+	font-size: 18px;
+	margin-left: 12px;
 }
