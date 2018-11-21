@@ -12,7 +12,7 @@ export default {
 		showAll: () => axios.post('/allphotos'),
 		like: (data) => axios.post('/api/likephoto', {data}),
 		addComment: (data) => axios.post('/api/addcomment', {data}),
-		getComments: (photo_id) => axios.post('/api/getcomments', {photo_id}),
+		getLikesComments: (photo_id) => axios.post('/api/getLikesAndComments', {photo_id}),
 		addToCollection: (id) => axios.post('/api/addtocollection')
 	},
 	date: {

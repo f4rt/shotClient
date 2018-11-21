@@ -12,7 +12,6 @@ class Photo extends Component {
 		fullView: false,
 		showCollections: false,
 		likeStatus: false,
-		likesCount: this.props.photo.likes
 	}
 
 	componentDidUpdate() {
@@ -47,12 +46,11 @@ class Photo extends Component {
 	hideCollections = () => 
 		this.setState({ showCollections: false });
 
-	likePhoto =() => {
+	likePhoto = () => {
 		const {photo, user} = this.props;
 		if (!this.state.likeStatus) {
 			this.setState({ 
 				likeStatus: true,
-				likesCount: this.state.likesCount + 1 
 			});
 			this.props.likeFunc({
 				photo_id: photo._id,
@@ -62,7 +60,7 @@ class Photo extends Component {
 	}
 
 	render() {
-		const {showBar, showCollections, fullView, likesCount, likeStatus} = this.state;
+		const {showBar, showCollections, fullView, likeStatus} = this.state;
 		const {photo} = this.props;
 
 		console.log('Photo component render')
@@ -98,7 +96,6 @@ class Photo extends Component {
 						user={this.props.user}
 						photo={photo}
 						close={this.hideFull}
-						likesCount={likesCount}
 						likeStatus={likeStatus}
 						likePhoto={this.likePhoto}/>
 				}

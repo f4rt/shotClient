@@ -10,7 +10,8 @@ class PhotoFull extends Component {
 	state = {
 		comment: '',
 		commentsArray: [],
-		currentServerDate: ''
+		currentServerDate: '',
+		likesCount: 0
 	}
 
 	componentDidMount() {
@@ -18,7 +19,11 @@ class PhotoFull extends Component {
 			let temp = new Date(date.data);
 			this.setState({ currentServerDate: temp.getTime() })
 		});
-		api.photos.getComments(this.props.photo._id).then(comments => this.setState({ commentsArray: comments.data }))
+		api.photos.getLikesComments(this.props.photo._id).then(item => 
+			this.setState({ 
+				commentsArray: item.data.comments.reverse(),
+				likesCount: item.data.likes
+			}))
 	}
 
 	typeComment = (e) => {
@@ -38,15 +43,21 @@ class PhotoFull extends Component {
 		})
 	}
 
+	setLike = () => {
+		if(!this.props.likeStatus) {
+			this.setState({ likesCount: this.state.likesCount + 1 });
+			this.props.likePhoto();
+		}
+	}
+
 	render() {
-		const {user, photo, likesCount, likeStatus, likePhoto} = this.props
-		const {commentsArray, currentServerDate} = this.state;
+		const {user, photo, likeStatus} = this.props
+		const {commentsArray, currentServerDate, likesCount} = this.state;
 
 		const comments = commentsArray ? 
 			commentsArray.map((comment, i) => 
 				<Comment key={i} comment={comment} serverDate={currentServerDate}/>
 		) : null;
-
 
 		return (
 			<div className="fullview-container">
@@ -63,7 +74,7 @@ class PhotoFull extends Component {
 							</div>
 						</div>
 						<div className="buttons-bar">
-							<button className={likeStatus ? "like liked" : "like"} onClick={likePhoto}>
+							<button className={likeStatus ? "like liked" : "like"} onClick={this.setLike}>
 								{likeStatus ? <img src={liked_icon} alt=""/> : <img src={like_icon} alt=""/>}
 								{likesCount}
 							</button>
