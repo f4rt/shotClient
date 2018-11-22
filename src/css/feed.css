@@ -82,7 +82,11 @@
 	right: -272px;
 	background-color: #fff;
 	z-index: 1000;
-	box-shadow: 0 0 9px rgba(0, 0, 0, 0.15);
+	box-shadow: 0 0 9px rgba(0, 0, 0, 0.25);
+}
+
+.to-collection.flip {
+	right: 48px;
 }
 
 .to-collection__title {
@@ -108,6 +112,15 @@
 	position: absolute;
 	border: 14px solid transparent;	
 	border-right: 14px solid #fff;
+}
+
+.to-collection.flip .to-collection__new::before {
+	content: '';
+	top: 10px;
+	left: 100%;
+	position: absolute;
+	border: 14px solid transparent;	
+	border-left: 14px solid #fff;
 }
 
 .to-collection__new span {

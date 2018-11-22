@@ -11,6 +11,7 @@ class Photo extends Component {
 		showBar: false,
 		fullView: false,
 		showCollections: false,
+		flipModal: false,
 		likeStatus: false,
 	}
 
@@ -40,8 +41,11 @@ class Photo extends Component {
 	hideFull = () => 
 		this.setState({ fullView: false });
 
-	showCollections = () => 
-		this.setState({ showCollections: true });
+	showCollections = (e) => {
+		if(window.innerWidth - e.target.x < 320)
+			this.setState({ showCollections: true, flipModal: true });
+		this.setState({ showCollections: true});
+	}
 
 	hideCollections = () => 
 		this.setState({ showCollections: false });
@@ -60,10 +64,8 @@ class Photo extends Component {
 	}
 
 	render() {
-		const {showBar, showCollections, fullView, likeStatus} = this.state;
+		const {showBar, showCollections, flipModal, fullView, likeStatus} = this.state;
 		const {photo} = this.props;
-
-		console.log('Photo component render')
 
 		return (
 			<React.Fragment>
@@ -78,14 +80,20 @@ class Photo extends Component {
 								{photo.author_name}
 							</div>
 							<div className="buttons">
-								<button>
+								<button onClick={this.likePhoto}>
 									{likeStatus ? <img src={liked_icon} alt="Like it"/> : <img src={like_icon} alt="Like it"/>}
 								</button>
 								<button onClick={this.showCollections}>
 									<img src={collection_icon} alt="Add to your collection"/>
 								</button>
 								{showCollections && 
-									<AddToCollection user={this.props.user} photo_id={photo._id}/>
+									<AddToCollection 
+										user={this.props.user} 
+										photo_id={photo._id} 
+										flip={flipModal}
+										close={this.hideCollections}
+										addToCollection={this.props.addToCollection}
+										/>
 								}
 							</div>
 						</div>

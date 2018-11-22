@@ -10,5 +10,11 @@ export const newCollection = (data) => ({
 	data
 })
 
+export const addPhoto = (data) => ({
+	type: 'ADD_PHOTO',
+	data
+})
+
 export const like = (data) => (dispatch) => {api.photos.like(data); dispatch(likePhoto(data))};
 export const createCollection = (data) => (dispatch) => {api.user.addNewCollection(data); dispatch(newCollection(data))};
+export const addToCollection = (data) => (dispatch) => {api.user.addToCollection(data); dispatch(addPhoto(data))};
