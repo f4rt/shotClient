@@ -36,11 +36,12 @@ class AddToCollection extends Component {
 			collection_name: this.state.collectionName
 		})
 
-	addToCollection = (e) => {
+	addPhotoToCollection = (e) => {
 		this.props.addToCollection({
 			user_id: this.props.user.user_id,
 			photo_id: this.props.photo_id,
-			collection_name: e.target.textContent
+			collection_name: e.target.textContent,
+			last_photo_url: this.props.photo_url
 		})
 	}
 
@@ -49,9 +50,8 @@ class AddToCollection extends Component {
 		const {user, flip}= this.props;
 
 		const collections = user.collections.map((item, i) => 
-			<div key={i} className="user-collection" onClick={this.addToCollection}>
-				<div className="user-collection__last-photo">
-					<img src={item.collection_photos[0]} alt=""/>
+			<div key={i} className="user-collection" onClick={this.addPhotoToCollection}>
+				<div className="user-collection__last-photo" style={{backgroundImage: "url(" + item.last_photo_url + ')'}}>
 				</div>
 				<div className="user-collection__title">{item.collection_name}</div>
 			</div>

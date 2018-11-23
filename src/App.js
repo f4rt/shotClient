@@ -8,7 +8,10 @@ class App extends Component {
 
   componentDidMount() {
     let user = JSON.parse(localStorage.getItem('User'));
-    if (!user) {localStorage.setItem('User', JSON.stringify({token: ''}))}
+    if (!user) {
+      user = {token: ''}
+      localStorage.setItem('User', user)
+    }
     this.props.checkAuth(user)
   }
 

@@ -57,6 +57,16 @@ button:hover {
   transform: rotate(-45deg);
 }
 
+.error-box {
+  position: fixed;
+  top: 15%;
+  padding: 16px 24px;
+  font-size: 20px;
+  color: #fff;
+  background-color: rgba(235, 87, 87, 0.8);
+  z-index: 5000;
+}
+
 @import "./css/topbar.css";
 @import "./css/upload-modal.css";
 @import "./css/feed.css";

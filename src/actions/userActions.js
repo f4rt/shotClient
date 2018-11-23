@@ -11,7 +11,7 @@ export const newCollection = (data) => ({
 })
 
 export const addPhoto = (data) => ({
-	type: 'ADD_PHOTO',
+	type: 'ADD_PHOTO_TO_COLLECTION',
 	data
 })
 

@@ -3,7 +3,7 @@ import like_icon from './like_icon.svg';
 import liked_icon from './liked_icon.svg';
 import collection_icon from './collection_icon.svg';
 import PhotoFull from './PhotoFull';
-import AddToCollection from './AddToCollection'
+import AddToCollection from './AddToCollection';
 
 class Photo extends Component {
 	state = {
@@ -13,6 +13,7 @@ class Photo extends Component {
 		showCollections: false,
 		flipModal: false,
 		likeStatus: false,
+		errorMessage: '',
 	}
 
 	componentDidUpdate() {
@@ -36,35 +37,52 @@ class Photo extends Component {
 	}
 
 	showFull = () =>
-		this.setState({ fullView: true });
+		this.setState({ fullView: true, showCollections: false });
 
 	hideFull = () => 
-		this.setState({ fullView: false });
+		this.setState({ fullView: false, showCollections: false });
 
 	showCollections = (e) => {
-		if(window.innerWidth - e.target.x < 320)
-			this.setState({ showCollections: true, flipModal: true });
-		this.setState({ showCollections: true});
+		if(this.props.user.token) {
+			if(window.innerWidth - e.target.x < 320) {
+				this.setState({ showCollections: true, flipModal: true });
+			}
+			this.setState({ showCollections: true });
+		} else {
+			this.setState({ errorMessage: 'Log in for add photos to the collections' });
+			this.closeErrorBox();
+		}
 	}
 
 	hideCollections = () => 
 		this.setState({ showCollections: false });
 
-	likePhoto = () => {
+	likePhoto = (e) => {
 		const {photo, user} = this.props;
-		if (!this.state.likeStatus) {
-			this.setState({ 
-				likeStatus: true,
-			});
-			this.props.likeFunc({
-				photo_id: photo._id,
-				user_id: user.user_id
-			});
-		}
+		if (user.token) {
+			if (!this.state.likeStatus) {
+				this.setState({ 
+					likeStatus: true,
+				});
+				this.props.likeFunc({
+					photo_id: photo._id,
+					user_id: user.user_id
+				});
+			}
+		} else {
+				this.setState({ errorMessage: 'You are not logged' });
+				this.closeErrorBox();
+			}	
+	}
+
+	closeErrorBox = () => {
+		setTimeout(() => {
+			this.setState({ errorMessage: '' });
+		}, 3000)
 	}
 
 	render() {
-		const {showBar, showCollections, flipModal, fullView, likeStatus} = this.state;
+		const {showBar, showCollections, flipModal, fullView, likeStatus, errorMessage} = this.state;
 		const {photo} = this.props;
 
 		return (
@@ -89,7 +107,8 @@ class Photo extends Component {
 								{showCollections && 
 									<AddToCollection 
 										user={this.props.user} 
-										photo_id={photo._id} 
+										photo_id={photo._id}
+										photo_url={photo.photo_url}
 										flip={flipModal}
 										close={this.hideCollections}
 										addToCollection={this.props.addToCollection}
@@ -105,7 +124,15 @@ class Photo extends Component {
 						photo={photo}
 						close={this.hideFull}
 						likeStatus={likeStatus}
-						likePhoto={this.likePhoto}/>
+						likePhoto={this.likePhoto}
+						showCollections={showCollections}
+						showCollectionsFunc={this.showCollections}
+						collectionsFlip={flipModal}
+						collectionsClose={this.hideCollections}
+						addToCollection={this.props.addToCollection}/>
+				}
+				{errorMessage &&
+					<div className="error-box">{errorMessage}</div>
 				}
 			</React.Fragment>
 		);

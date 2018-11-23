@@ -5,6 +5,7 @@ import collection_icon from './collection_icon.svg';
 import Textarea from 'react-textarea-autosize';
 import api from '../../api';
 import Comment from './Comment';
+import AddToCollection from './AddToCollection'
 
 class PhotoFull extends Component {
 	state = {
@@ -45,13 +46,15 @@ class PhotoFull extends Component {
 
 	setLike = () => {
 		if(!this.props.likeStatus) {
-			this.setState({ likesCount: this.state.likesCount + 1 });
+			if (this.props.user.token) {
+				this.setState({ likesCount: this.state.likesCount + 1 });
+			}
 			this.props.likePhoto();
 		}
 	}
 
 	render() {
-		const {user, photo, likeStatus} = this.props
+		const {user, photo, likeStatus, showCollections} = this.props
 		const {commentsArray, currentServerDate, likesCount} = this.state;
 
 		const comments = commentsArray ? 
@@ -78,8 +81,20 @@ class PhotoFull extends Component {
 								{likeStatus ? <img src={liked_icon} alt=""/> : <img src={like_icon} alt=""/>}
 								{likesCount}
 							</button>
-							<button className="collection">
-								<img src={collection_icon} alt=""/>
+							<button className="collection" onClick={this.props.showCollectionsFunc}>
+								<div className="modal-wrapper">
+									<img src={collection_icon} alt=""/>
+									{showCollections && 
+									<AddToCollection 
+										user={this.props.user} 
+										photo_id={photo._id}
+										photo_url={photo.photo_url}
+										flip={this.props.collectionsFlip}
+										close={this.props.collectionsClose}
+										addToCollection={this.props.addToCollection}
+										/>
+								}
+								</div>
 								Add to collection
 							</button>
 						</div>
