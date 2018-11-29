@@ -59,18 +59,63 @@ class Feed extends Component {
 		})	
 	}
 
+	asymmetricGrid = () => {
+		const {photos_data} = this.state;
+		let col1 = [];
+		let col2 = [];
+		let col3 = [];
+		for(let i = 0; i < photos_data.length; i += 3) {
+			col1.push(photos_data[i]);
+			if(!(i === photos_data.length - 1)) {
+				col2.push(photos_data[i + 1]);
+				col3.push(photos_data[i + 2]);
+			}
+		}
+		return (this.getGrid(col1, col2, col3))
+	}
+
+	colMap = (col) => {
+		return (
+			col.map(item => 
+				<Photo 
+					key={item._id} 
+					photo={item} 
+					user={this.props.user} 
+					likeFunc={this.props.like}
+					addToCollection={this.props.addToCollection}
+					/>
+			)
+		)
+	}
+
+	getGrid = (col1, col2 , col3) => (
+		<React.Fragment>
+			<div className="feed__column">
+				{this.colMap(col1)}
+			</div>
+			<div className="feed__column">
+				{this.colMap(col2)}
+			</div>
+			<div className="feed__column">
+				{this.colMap(col3)}
+			</div>
+		</React.Fragment>
+	)
+
 	render() {
 		const {photos_data} = this.state;
-		const photos = photos_data.map(data => 
-			<Photo 
-				key={data._id} 
-				photo={data} 
-				user={this.props.user} 
-				likeFunc={this.props.like}
-				addToCollection={this.props.addToCollection}
-				/>
-		)
-	
+		// const photos = photos_data.map(data => 
+		// 	<Photo 
+		// 		key={data._id} 
+		// 		photo={data} 
+		// 		user={this.props.user} 
+		// 		likeFunc={this.props.like}
+		// 		addToCollection={this.props.addToCollection}
+		// 		/>
+		// )
+
+		const photos = this.asymmetricGrid();
+
 		return (
 			<div className="feed-container">
 			<button onClick={this.perfomanceTest}>PERFORMANCE TEST</button>
@@ -84,7 +129,7 @@ class Feed extends Component {
 
 function mapStateToProps(state) {
 	return ({
-		user: state.user
+		user: state.user,
 	})
 }
 

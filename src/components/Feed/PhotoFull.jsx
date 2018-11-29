@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import like_icon from './like_icon.svg';
 import liked_icon from './liked_icon.svg';
 import collection_icon from './collection_icon.svg';
+import minimize_icon from './minimize_icon.svg';
 import Textarea from 'react-textarea-autosize';
 import api from '../../api';
 import Comment from './Comment';
@@ -12,7 +13,8 @@ class PhotoFull extends Component {
 		comment: '',
 		commentsArray: [],
 		currentServerDate: '',
-		likesCount: 0
+		likesCount: 0,
+		showAllComments: false
 	}
 
 	componentDidMount() {
@@ -34,15 +36,25 @@ class PhotoFull extends Component {
 
 	addComment = () => {
 		const {user, photo} = this.props;
-		const {comment} = this.state
-		api.photos.addComment({
+		const {comment} = this.state;
+		let newComment = {
 			user_id: user.user_id,
 			user_photo: user.photo,
 			username: user.firstname + ' ' + user.surname,
 			comment: comment,
 			photo_id: photo._id
-		})
+		}
+		api.photos.addComment(newComment);
+		this.setState({ commentsArray: [...this.state.commentsArray, newComment] });
 	}
+
+	showAllCommentsFunc = () => 
+		this.setState({ showAllComments: true });
+	
+
+	hideAllCommentsFunc = () => 
+		this.setState({ showAllComments: false });
+	
 
 	setLike = () => {
 		if(!this.props.likeStatus) {
@@ -55,12 +67,14 @@ class PhotoFull extends Component {
 
 	render() {
 		const {user, photo, likeStatus, showCollections} = this.props
-		const {commentsArray, currentServerDate, likesCount} = this.state;
+		const {commentsArray, currentServerDate, likesCount, showAllComments} = this.state;
 
 		const comments = commentsArray ? 
 			commentsArray.map((comment, i) => 
 				<Comment key={i} comment={comment} serverDate={currentServerDate}/>
 		) : null;
+
+		console.log(comments.length)
 
 		return (
 			<div className="fullview-container">
@@ -68,7 +82,7 @@ class PhotoFull extends Component {
 					<div className="fullview__photo" style={{ width: photo.photo_url ? 'auto' : '75%'}}>
 						<img src={photo.photo_url} alt=""/>
 					</div>
-					<div className="fullview__info">
+					<div className={!showAllComments ? "fullview__info" : "fullview__info show-all-comments"}>
 						<div className="author">
 							<div className="author__photo" style={{ backgroundImage: 'url(' + photo.author_photo + ')' }}></div>
 							<div className="author__name">
@@ -104,9 +118,14 @@ class PhotoFull extends Component {
 						</div>
 						<div className="comments">
 							<div className="section-title">Comments</div>
+							{showAllComments &&
+								<button className="minimize-button" onClick={this.hideAllCommentsFunc}>
+									<img src={minimize_icon} alt=""/>
+								</button>
+							}
 							<div className="comments-section">
 								{!!user.token && 
-									<div className="user-comment">
+									<div className="user-comment" style={ {marginBottom: comments.length > 0 ? 8 : 0 }}>
 										<div className="textarea-wrapper">
 											<div className="user-photo" style={{ backgroundImage: 'url(' + user.photo +')' }}></div>
 											<Textarea placeholder="Add a comment..." onChange={this.typeComment}/>
@@ -114,7 +133,12 @@ class PhotoFull extends Component {
 										<button onClick={this.addComment}>Add</button>
 									</div>
 								}
-								{comments}
+								<div className="comments-list-wrapper">
+									{!showAllComments ? comments.slice(0, 3) : comments}
+								</div>
+								{comments.length > 3 && !showAllComments &&
+									<button className="all-comments" onClick={this.showAllCommentsFunc}>Read all comments</button>
+								}
 							</div>
 						</div>
 						<div className="main-close">

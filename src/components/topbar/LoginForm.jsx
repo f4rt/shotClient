@@ -35,7 +35,7 @@ class LoginForm extends Component {
 		}
 
 		if(Object.keys(errors).length === 0 && this.props.status === 'Sign up') {
-			this.props.signup(this.state.data);
+			this.props.signup(this.state.data).catch(err => this.setState({errors: err.response.data.errors}));
 		}
 	};
 

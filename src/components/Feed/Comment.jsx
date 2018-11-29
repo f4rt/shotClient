@@ -2,11 +2,12 @@ import React,{Component} from 'react';
 
 class Comment extends Component {
 	state = {
-		comment_time: ''
+		comment_time: 'right now',
 	}
 
 	commentTime = () => {
 		const {comment, serverDate} = this.props;
+
 		let difference = (new Date(serverDate) - new Date(comment.date)) / 1000;
 		if (difference < (60 * 60)) {
 			this.setState({ comment_time: Math.round(difference / 60) + 'mins ago' });
@@ -23,10 +24,13 @@ class Comment extends Component {
 		else {
 			this.setState({ comment_time: Math.round(difference / (60 * 60 * 24 * 30 * 365)) + 'y ago' });
 		}
+		
 	}
 
 	componentDidMount() {
-		this.commentTime();
+		if(this.props.comment.date) {
+			this.commentTime();
+		}
 	}
 
 	render() {

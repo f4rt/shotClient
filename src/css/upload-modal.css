@@ -91,6 +91,7 @@
 	padding: 16px 0;
 	border: none;
 	background-color: #56CCF2;
+	margin-bottom: 16px;
 }
 
 .upload__info textarea {
@@ -176,4 +177,14 @@
 
 .main-close .close::before, .main-close .close::after {
 	background-color: #333;
+}
+
+.upload__info .error {
+	color: #EB5757;
+	background-color: rgb(255, 235, 235);
+	border: 1px solid #EB5757;
+	font-size: 16px;
+	font-weight: 500;
+	margin-bottom: 8px;
+	padding: 12px;
 }

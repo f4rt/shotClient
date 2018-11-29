@@ -8,11 +8,25 @@ class UploadModal extends Component {
 		category: 'Uncatigorized',
 		keyword_value: '',
 		keywords: [],
-		description: ''
+		description: '',
+		errors: {
+			photo_url: '',
+			title: '',
+			keywords: ''
+		},
+		uploaded: false,
+		uploadedMessage: ''
 	}
 
 	addToData = (e) => 
-		this.setState({ ...this.state, [e.target.name]: e.target.value });
+		this.setState({ 
+			...this.state, 
+			[e.target.name]: e.target.value, 
+			errors: {
+				...this.state.errors, 
+				[e.target.name]: ''
+			} 
+		});
 
 	submitUpload = () => {
 		let data = {
@@ -26,10 +40,27 @@ class UploadModal extends Component {
 			description: this.state.description
 		}
 
-		if (data.photo_url && data.title && data.keywords) {
-			api.user.upload(data);
-		}	
+		if(!this.state.uploaded) {
+			const errors = this.validate(data);
+			if (Object.keys(errors).length === 0) {
+				api.user.upload(data)
+					.then((message) => this.setState({ uploaded: true, uploadedMessage: message.data }))
+						.then(() => setTimeout(() => this.props.closeModal(), 2500))
+			}	else {
+				this.setState({ errors });
+			}
+		}
 	}
+
+	validate = (data) => {
+		const errors = {};
+		if(!data.photo_url) errors.photo_url = 'Photo url is required';
+		if(!data.title) errors.title = 'Title is required';
+		if(data.keywords.length === 0) errors.keywords = 'At least one keyword is required';
+		return errors;
+	}
+
+	//	keywords functions
 
 	handleChange = (e) => {
 		this.setState({
@@ -54,7 +85,8 @@ class UploadModal extends Component {
 
 		this.setState({
       keywords: [...keywords, tag],
-      keyword_value: ""
+			keyword_value: "",
+			errors: {...this.state.errors, keywords: ''}
     });
 	};
 	
@@ -65,7 +97,7 @@ class UploadModal extends Component {
 	}
 
 	render() {
-		const {photo_url, keywords, keyword_value} = this.state;
+		const {photo_url, keywords, keyword_value, errors, uploaded, uploadedMessage} = this.state;
 		const tags = keywords.map((tag, i) =>
 			<React.Fragment key={tag + i}>
 				<li>
@@ -122,7 +154,10 @@ class UploadModal extends Component {
 							<textarea name="description" id="" cols="30" rows="4" onChange={this.addToData}></textarea>
 						</div>
 						<div className="submit">
-							<button onClick={this.submitUpload}>Submit</button>
+							<button onClick={this.submitUpload}>{!uploaded ? 'Submit' : uploadedMessage}</button>
+							{errors.photo_url && <div className="error">{errors.photo_url}</div>}
+							{errors.title && <div className="error">{errors.title}</div>}
+							{errors.keywords && <div className="error">{errors.keywords}</div>}
 						</div>
 						<div className="main-close">
 							<button className="close" onClick={this.props.closeModal}></button>

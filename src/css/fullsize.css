@@ -90,7 +90,6 @@
 }
 
 .comments .comments-section textarea {
-	flex: 1;
 	color: #333;
 	height: auto;
 	border: 1px solid #e0e0e0;
@@ -149,6 +148,10 @@
 	margin-top: 4px;
 }
 
+.comments-section .comment:first-child {
+	margin-top: 0;
+}
+
 .comment .user {
 	display: flex;
 	padding-bottom: 8px;
@@ -182,4 +185,45 @@
 .comment__text {
 	padding-top: 8px;
 	font-size: 16px;
+}
+
+.comments-section .all-comments {
+	background-color: #fff;
+	padding: 10px 0;
+	border: none;
+	color: #56CCF2;
+	font-size: 20px;
+	font-weight: 500;
+	width: 100%;
+	text-align: center;
+	margin-top: 8px;
+}
+
+.show-all-comments .author,
+.show-all-comments .buttons-bar,
+.show-all-comments .title-description {
+	display: none;
+}
+
+.show-all-comments {
+	width: 620px;
+}
+
+.show-all-comments .comments {
+	position: relative;
+	height: calc(100% - 16px);
+}
+
+.show-all-comments .comments-section {
+	height: calc(100% - 40px);
+	overflow-y: scroll;
+	overflow-x: hidden;
+}
+
+.show-all-comments .minimize-button {
+	border: none;
+	background: none;
+	position: absolute;
+	right: 16px;
+	top: 2px;
 }

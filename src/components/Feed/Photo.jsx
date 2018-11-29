@@ -7,7 +7,7 @@ import AddToCollection from './AddToCollection';
 
 class Photo extends Component {
 	state = {
-		initialUser: false,
+		firstIteration: false,
 		showBar: false,
 		fullView: false,
 		showCollections: false,
@@ -18,13 +18,17 @@ class Photo extends Component {
 
 	componentDidUpdate() {
 		const {photo, user}= this.props;
-		const {initialUser} = this.state;
-		if(user.token && !initialUser) {
+		const {firstIteration} = this.state;
+
+		if(!firstIteration && user.token) {
 			for (let i = 0; i < user.liked_photos.length; i++) {
 				if(user.liked_photos[i] === photo._id) {
-					this.setState({ likeStatus: true, initialUser: true });
+					this.setState({ likeStatus: true, firstIteration: true });
 				}
 			}
+		};
+		if (!user.token && firstIteration) {
+			this.setState({ likeStatus: false, firstIteration: false });
 		}
 	}
 
@@ -55,15 +59,13 @@ class Photo extends Component {
 	}
 
 	hideCollections = () => 
-		this.setState({ showCollections: false });
+		this.setState({ showCollections: false, showBar: false });
 
-	likePhoto = (e) => {
+	likePhoto = () => {
 		const {photo, user} = this.props;
 		if (user.token) {
 			if (!this.state.likeStatus) {
-				this.setState({ 
-					likeStatus: true,
-				});
+				this.setState({ likeStatus: true });
 				this.props.likeFunc({
 					photo_id: photo._id,
 					user_id: user.user_id
@@ -84,6 +86,8 @@ class Photo extends Component {
 	render() {
 		const {showBar, showCollections, flipModal, fullView, likeStatus, errorMessage} = this.state;
 		const {photo} = this.props;
+		
+		console.log('render')
 
 		return (
 			<React.Fragment>
